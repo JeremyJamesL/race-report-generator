@@ -24,7 +24,7 @@
             <form class="form">
                 <div class="mb-3 input-group">
                     <span class="input-group-text" id="addon">https://www.strava.com/activities/</span>
-                    <input type="text" name="activity" class="form-control enter-activity" placeholder="8076222179" aria-describedby="addon" />
+                    <input type="text" name="activity" class="form-control enter-activity" placeholder="add your race id" aria-describedby="addon" />
                 </div>
             <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -38,7 +38,7 @@
             <div class="row gx-5 results d-none">
 
                 <!-- Left col -->
-                <div class="col-4 mb-5">
+                <div class="col-4 mb-5 inputs">
                     
                     <!--  Race info-->
                     <div class="card shadow p-3 mb-5 card--race-info">
@@ -137,7 +137,53 @@
 
                 </div>
                 <div class="col-8">
-                        sss
+                       
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Preview</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Source</button>
+                        </li>
+
+                      </ul>
+                      <div class="tab-content p-2" id="myTabContent">
+                        <div class="tab-pane fade show active preview" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                            <div class="mb-3">    
+                            <h3>Race info</h3>
+                                <p><strong>Name:</strong> <span class="preview__name"></span></p>
+                                <p><strong>Date:</strong> <span class="preview__date"></span></p>
+                                <p><strong>Distance:</strong><span class="preview__distance"></span></p>
+                                <p><strong>Location:</strong> <span class="preview__location"></span></p>
+                                <p><strong>Time:</strong> <span class="preview__time"></span></p>
+                                <p><strong>Elevation:</strong> <span class="preview__elevation"></span></p>
+                            </div>
+
+
+                            <div class="mb-3">
+                            <h3>Splits</h3>
+                            <div class="preview__splits">
+                                <table class="table table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Split</th>
+                                        <th scope="col">Time</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="table-body">
+                                        
+                                    </tbody>
+                                  </table>
+                            </div>
+                            </div>
+                           
+
+                        </div>
+                        <div class="tab-pane fade race-source" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                            <textarea name="" id="" cols="100" rows="100" class="race-source-text font-monospace"></textarea>
+                        </div>
+                      </div>
+            
                 </div>
             </div>
             <!-- /Grid -->

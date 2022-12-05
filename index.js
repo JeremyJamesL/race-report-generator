@@ -7,6 +7,11 @@ const unitSelector = document.querySelector('.unit-selector');
 const unitRadios = document.querySelectorAll('.radio-units');
 const addGoalBtn = document.querySelector('.goal-add'); 
 const goalCard = document.querySelector('.card--goals');
+const inputsArea = document.querySelector('.inputs');
+const raceInfoArea = document.querySelector('.card--race-info');
+const splitsArea = document.querySelector('.card--splits');
+const previewArea = document.querySelector('.preview');
+const sourceArea = document.querySelector('.race-source-text');
 
 let measurement = 'km';
 let metricOrStandard;
@@ -3728,6 +3733,37 @@ let globalRace;
 // Event listeners 
 
 form.addEventListener('submit', handleSubmit);
+raceInfoArea.addEventListener('input', setPreview);
+splitsArea.addEventListener('keyup', setSplitsPreview);
+
+const config = { attributes: true, childList: true, subtree: true };
+
+// Callback function to execute when mutations are observed
+const callback = (mutationList, observer) => {
+    const values = {
+        name: document.querySelector('.preview__name').textContent,
+        date: document.querySelector('.preview__date').textContent,
+        distance: document.querySelector('.preview__distance').textContent,
+        location: document.querySelector('.preview__location').textContent,
+        time: document.querySelector('.preview__time').textContent,
+        elevation: document.querySelector('.preview__elevation').textContent,
+        splits: Array.from(document.querySelectorAll('.race-splits'))
+    }
+
+    const splits = values.splits.map(function(split,index) {
+        return `| ${index + 1} | ${split.value} |\n`
+    })
+
+
+    const html = `# Race report \n## Info\n### Name: ${values.name}\n### Date: ${values.date}\n### Distance: ${values.distance}\n### Location: ${values.location}\n### Time: ${values.time}\n### Elevation: ${values.elevation}\n###Splits\n| Split | Time |\n|------|------|\n${splits.join('')}`
+    sourceArea.textContent = html;
+
+};
+  
+const observer = new MutationObserver(callback);
+
+observer.observe(previewArea, config);
+
 
 window.addEventListener('load', () => {
     
@@ -3752,12 +3788,12 @@ unitRadios.forEach(unit => {
 })
 
 function displayData(accessToken, ID) {
-    console.log(accessToken, ID);
         fetch(`https://www.strava.com/api/v3/activities/${ID}?access_token=${accessToken}`)
     .then(response => response.json())
     .then(result => {
         hideLoading();
         setActivities(result);
+        setPreview();
     })
 }
 
@@ -3866,7 +3902,7 @@ function setActivities(race) {
                 <label for="race-${lap.name}-control" class="form-label">
                     Split ${lap.name}
                 </label>
-                <input type="text" class="form-control" id="race-distance-control" value=${convertToMin(lap.elapsed_time)}>
+                <input type="text" class="form-control race-splits" id="race-distance-control-${lap.split}" value=${convertToMin(lap.elapsed_time)}>
             </div>
             `
         )
@@ -3894,12 +3930,66 @@ function setActivities(race) {
 }
 
 
+// Display preview on first submit
+
+function setPreview() {
+    document.querySelector('.table-body').innerHTML = '';
+    const inputs = document.querySelectorAll('.card--race-info input');
+    const splits = Array.from(document.querySelectorAll('.card--splits .race-splits'));
+
+    const displayInputsPreview = (input) => {
+        const inputSelector = input.id.split('-')[1];
+        document.querySelector(`.preview__${inputSelector}`).innerHTML = input.value;
+    }
+
+    const displaySplitsPreview = (split, index) => {
+        const displayIndex = index + 1;
+        let html = `
+            <th scope="row">${displayIndex}</th>
+            <td>${split.value}</td>
+        `
+        document.querySelector('.table-body').insertAdjacentHTML('beforeend', html);
+    }
+
+    splits.forEach((split, index) => { 
+        console.log('running');
+        displaySplitsPreview(split,index)
+    })
+
+    inputs.forEach(input => displayInputsPreview(input));
+
+}
+
+
+function setSplitsPreview() {
+    document.querySelector('.table-body').innerHTML = '';
+    const splits = Array.from(document.querySelectorAll('.card--splits .race-splits'));
+
+    const displaySplitsPreview = (split, index) => {
+        const displayIndex = index + 1;
+        let html = `
+            <th scope="row">${displayIndex}</th>
+            <td>${split.value}</td>
+        `
+        document.querySelector('.table-body').insertAdjacentHTML('beforeend', html);
+    }
+
+    splits.forEach((split, index) => { 
+        console.log('running');
+        displaySplitsPreview(split,index)
+    })
+
+}
+
+
+
+
 // Handle submit
 
 function handleSubmit(event) {
     event.preventDefault();
 
-    const activityID = (form.elements[0].value);
+    const activityID = (form.elements[0].value);    
     localStorage.setItem('actID', activityID);
     const url = `https://www.strava.com/oauth/authorize?client_id=96784&response_type=code&redirect_uri=http://127.0.0.1:5500/&approval_prompt=force&scope=activity:read_all`;
     window.location = url;
@@ -3921,6 +4011,7 @@ function handleSubmit(event) {
 
 // Update splits 
 function updateSplits(event) {
+ 
 
     const convertToMin = (s) => {
 
@@ -3947,7 +4038,7 @@ function updateSplits(event) {
                 <label for="race-${lap.split}-control" class="form-label">
                     Split ${lap.split}
                 </label>
-                <input type="text" class="form-control" id="race-distance-control" value=${convertToMin(lap.elapsed_time)}>
+                <input type="text" class="form-control race-splits" id="race-distance-control-${lap.split}" value=${convertToMin(lap.elapsed_time)}>
             </div>
             `
         )
@@ -3966,7 +4057,7 @@ function updateSplits(event) {
     document.querySelector('.the-splits').innerHTML = '';
 
     newSplits.forEach(lap => displaySplits(lap))
-
+    setSplitsPreview();
 
 }
 
