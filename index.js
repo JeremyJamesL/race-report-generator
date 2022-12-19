@@ -10,6 +10,7 @@ const goalCard = document.querySelector('.card--goals');
 const inputsArea = document.querySelector('.inputs');
 const raceInfoArea = document.querySelector('.card--race-info');
 const splitsArea = document.querySelector('.card--splits');
+const goalsArea = document.querySelector('.card--goals');
 const previewArea = document.querySelector('.preview');
 const sourceArea = document.querySelector('.race-source-text');
 
@@ -3735,6 +3736,10 @@ let globalRace;
 form.addEventListener('submit', handleSubmit);
 raceInfoArea.addEventListener('input', setPreview);
 splitsArea.addEventListener('keyup', setSplitsPreview);
+goalsArea.addEventListener('keyup', setGoalsPreview);
+goalsArea.addEventListener('change', setGoalsPreview);
+goalsArea.addEventListener('click', setGoalsPreview);
+addGoalBtn.addEventListener('click', handleGoalAdd);
 
 const config = { attributes: true, childList: true, subtree: true };
 
@@ -3747,15 +3752,22 @@ const callback = (mutationList, observer) => {
         location: document.querySelector('.preview__location').textContent,
         time: document.querySelector('.preview__time').textContent,
         elevation: document.querySelector('.preview__elevation').textContent,
-        splits: Array.from(document.querySelectorAll('.race-splits'))
+        splits: Array.from(document.querySelectorAll('.race-splits')),
+        goals: Array.from(document.querySelectorAll('.preview__goal'))
     }
 
     const splits = values.splits.map(function(split,index) {
         return `| ${index + 1} | ${split.value} |\n`
     })
 
+    const goals = values.goals.map(function(goal,index) {
+        return `| ${goal.children[0].childNodes[0].data} | ${goal.children[1].childNodes[0].data} | ${goal.children[2].childNodes[0].data} \n`
+    })
 
-    const html = `# Race report \n## Info\n### Name: ${values.name}\n### Date: ${values.date}\n### Distance: ${values.distance}\n### Location: ${values.location}\n### Time: ${values.time}\n### Elevation: ${values.elevation}\n###Splits\n| Split | Time |\n|------|------|\n${splits.join('')}`
+    console.log(goals);
+
+
+    const html = `# Race report \n## Info\n### Name: ${values.name}\n### Date: ${values.date}\n### Distance: ${values.distance}\n### Location: ${values.location}\n### Time: ${values.time}\n### Elevation: ${values.elevation}\n### Splits\n| Split | Time |\n|------|------|\n${splits.join('')}\n### Goals\n| Goal | Description | Completed? |\n|------|------|------|${goals.join('')}`
     sourceArea.textContent = html;
 
 };
@@ -3800,7 +3812,8 @@ function displayData(accessToken, ID) {
 
 // Add goals
 
-const handleGoalAdd = () => {
+function handleGoalAdd() {
+
     const html = ` 
     <div class="input-group mb-3 goal">
         <div class="input-group-text">
@@ -3814,17 +3827,17 @@ const handleGoalAdd = () => {
   document.querySelector('.card--goals').insertAdjacentHTML('beforeend', html);
 }
 
-addGoalBtn.addEventListener('click', handleGoalAdd);
+
 
 // Delete goals
 
-const deleteGoal = (e) => {
-    if(e.target.classList.contains('goal-delete')) {
-        e.target.parentElement.remove();
-    }
-}
+// const deleteGoal = (e) => {
+//     if(e.target.classList.contains('goal-delete')) {
+//         e.target.parentElement.remove();
+//     }
+// }
 
-goalCard.addEventListener('click', deleteGoal);
+// goalCard.addEventListener('click', deleteGoal);
 
 // Loading 
 
@@ -3948,11 +3961,10 @@ function setPreview() {
             <th scope="row">${displayIndex}</th>
             <td>${split.value}</td>
         `
-        document.querySelector('.table-body').insertAdjacentHTML('beforeend', html);
+        document.querySelector('.table--splits').insertAdjacentHTML('beforeend', html);
     }
 
     splits.forEach((split, index) => { 
-        console.log('running');
         displaySplitsPreview(split,index)
     })
 
@@ -3962,7 +3974,7 @@ function setPreview() {
 
 
 function setSplitsPreview() {
-    document.querySelector('.table-body').innerHTML = '';
+    document.querySelector('.table--splits').innerHTML = '';
     const splits = Array.from(document.querySelectorAll('.card--splits .race-splits'));
 
     const displaySplitsPreview = (split, index) => {
@@ -3971,16 +3983,43 @@ function setSplitsPreview() {
             <th scope="row">${displayIndex}</th>
             <td>${split.value}</td>
         `
-        document.querySelector('.table-body').insertAdjacentHTML('beforeend', html);
+        document.querySelector('.table--splits').insertAdjacentHTML('beforeend', html);
     }
 
     splits.forEach((split, index) => { 
-        console.log('running');
         displaySplitsPreview(split,index)
     })
 
 }
 
+
+function setGoalsPreview(e) {
+
+    if(e.target.classList.contains('goal-delete')) {
+        e.target.parentElement.remove();
+    }
+
+    const alphabet = ['a','b','c','d','e'];
+    const goalValues = Array.from(document.querySelectorAll('.goal'));
+
+    const convertDigitToNum = (num) => {
+        return alphabet[num];
+    }
+    const completedOrNot = (bool) => {
+        return bool ? 'Yes' : 'No'
+    }
+
+    const goalValuesArr = goalValues.map((el, index) => {
+        return `
+            <tr class="preview__goal">
+                <td>${convertDigitToNum(index)}</td>
+                <td>${el.children[1].value}</td>
+                <td>${completedOrNot(el.children[0].children[0].checked)}</td>
+            </tr>
+        `
+    });
+    document.querySelector('.table--goals').innerHTML = goalValuesArr.join('');
+}
 
 
 
@@ -3997,7 +4036,6 @@ function handleSubmit(event) {
 
     // let urlSplit = event.target.elements[0].value.split("/");
     // let activityId = urlSplit[urlSplit.length -1];
-    // console.log(activityId);
 
     // fetch(`https://www.strava.com/api/v3/activities/${activityId}?access_token=${accessToken}`)
     // .then(response => response.json())

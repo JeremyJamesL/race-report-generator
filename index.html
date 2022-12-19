@@ -14,7 +14,7 @@
         <div class="container">
             <h1><a href="/"> Strava Race Report Generator.</a></h1>
         </div>
-    </header>
+    </header>   
 
     <main>
         <div class="container">
@@ -91,7 +91,27 @@
 
                     </div>
                     <!-- /race info -->
-                    
+
+                    <!-- Goals -->
+                    <div class="card shadow p-3 mb-5 card--goals">
+                        <h4 class="mb-2">Goals<span class="ms-1 fw-light fs-6 goal-add">Add</span></h4>
+                        <div class="input-group mb-3 goal">
+                            <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with checkbox">
+                            <span class="goal-delete">x</span>
+                        </div>
+                        <div class="input-group mb-3 goal">
+                            <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with checkbox">
+                            <span class="goal-delete">x</span>
+                        </div>
+                    </div>
+                    <!-- /goals -->
+
                     <!-- Race splits -->
                     <div class="card shadow p-2 mb-5 card--splits">
                         <h4 class="mb-2">Race splits</h4>
@@ -116,24 +136,7 @@
                     </div>
                     <!-- /race splits -->
 
-                    <!-- Goals -->
-                    <div class="card shadow p-2 card--goals">
-                        <h4 class="mb-2">Goals<span class="ms-1 fw-light fs-6 goal-add">Add</span></h4>
-                        <div class="input-group mb-3 goal">
-                            <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-                            </div>
-                            <input type="text" class="form-control" aria-label="Text input with checkbox">
-                            <span class="goal-delete">x</span>
-                        </div>
-                        <div class="input-group mb-3 goal">
-                            <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
-                            </div>
-                            <input type="text" class="form-control" aria-label="Text input with checkbox">
-                            <span class="goal-delete">x</span>
-                        </div>
-                    </div>
+
 
                 </div>
                 <div class="col-8">
@@ -159,6 +162,24 @@
                                 <p><strong>Elevation:</strong> <span class="preview__elevation"></span></p>
                             </div>
 
+                            <div class="mb-3">
+                                <h3>Goals</h3>
+                                <div class="preview__goals">
+                                    <table class="table table-striped">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Goal</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Completed?</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody class="table-body table--goals">
+                                            
+                                        </tbody>
+                                      </table>
+                                </div>
+                            </div>
+
 
                             <div class="mb-3">
                             <h3>Splits</h3>
@@ -170,7 +191,7 @@
                                         <th scope="col">Time</th>
                                       </tr>
                                     </thead>
-                                    <tbody class="table-body">
+                                    <tbody class="table-body table--splits">
                                         
                                     </tbody>
                                   </table>
