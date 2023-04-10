@@ -4,7 +4,7 @@ Simple race report generator for posting race reports on r/running
 
 Other solutions don't use the Strava API to generate race report data automatically, which is the impetus for creating this project.
 
-Acknowledgements go to [race reportr]('https://coachview.github.io/race-reportr/') and [sfdavis]('http://sfdavis.com/racereports/') for already having solutions that helped with the framework for this project.
+Acknowledgements go to [race reportr](https://coachview.github.io/race-reportr/) and [sfdavis](http://sfdavis.com/racereports/) for already having solutions that helped with the framework for this project.
 
 ## Instructions
 
