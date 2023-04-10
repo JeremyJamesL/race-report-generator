@@ -4,21 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- CSS only -->
+    <title>JL - Strava race report generator</title>
+    <link rel="icon" type="image/x-icon" href="https://w7.pngwing.com/pngs/976/777/png-transparent-the-female-runner-emoji-iphone-woman-emoji-physical-fitness-running-cartoon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="container-fluid">
+    <header class="container-fluid mt-2">
         <div class="container">
-            <h1><a href="/"> Strava Race Report Generator.</a></h1>
+            <h1><a href="/" class="text-decoration-none"> Strava Race Report Generator</a></h1>
         </div>
     </header>   
 
     <main>
         <div class="container">
-
         <!-- Add activity -->
         <div class="add-activity row mb-5">
             <form class="form">
@@ -38,7 +36,7 @@
             <div class="row gx-5 results d-none">
 
                 <!-- Left col -->
-                <div class="col-4 mb-5 inputs">
+                <div class="col-md-4 mb-5 inputs">
                     
                     <!--  Race info-->
                     <div class="card shadow p-3 mb-5 card--race-info">
@@ -94,20 +92,20 @@
 
                     <!-- Goals -->
                     <div class="card shadow p-3 mb-5 card--goals">
-                        <h4 class="mb-2">Goals<span class="ms-1 fw-light fs-6 goal-add">Add</span></h4>
+                        <h4 class="mb-2">Goals<span class="ms-1 fw-light fs-6 goal-add button" role="button">Add</span></h4>
                         <div class="input-group mb-3 goal">
                             <div class="input-group-text">
                             <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
                             </div>
                             <input type="text" class="form-control" aria-label="Text input with checkbox">
-                            <span class="goal-delete">x</span>
+                            <button type="button" class="btn-close goal-delete fs-6" aria-label="Close" role="button"></button>
                         </div>
                         <div class="input-group mb-3 goal">
                             <div class="input-group-text">
                             <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
                             </div>
                             <input type="text" class="form-control" aria-label="Text input with checkbox">
-                            <span class="goal-delete">x</span>
+                            <button type="button" class="btn-close goal-delete fs-6" aria-label="Close" role="button"></button>
                         </div>
                     </div>
                     <!-- /goals -->
@@ -136,10 +134,8 @@
                     </div>
                     <!-- /race splits -->
 
-
-
                 </div>
-                <div class="col-8">
+                <div class="col-md-8">
                        
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -156,7 +152,7 @@
                             <h3>Race info</h3>
                                 <p><strong>Name:</strong> <span class="preview__name"></span></p>
                                 <p><strong>Date:</strong> <span class="preview__date"></span></p>
-                                <p><strong>Distance:</strong><span class="preview__distance"></span></p>
+                                <p><strong>Distance:</strong> <span class="preview__distance"></span></p>
                                 <p><strong>Location:</strong> <span class="preview__location"></span></p>
                                 <p><strong>Time:</strong> <span class="preview__time"></span></p>
                                 <p><strong>Elevation:</strong> <span class="preview__elevation"></span></p>
@@ -201,7 +197,7 @@
 
                         </div>
                         <div class="tab-pane fade race-source" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                            <textarea name="" id="" cols="100" rows="100" class="race-source-text font-monospace"></textarea>
+                            <textarea name="" id="" cols="120" rows="100" style="max-width:100%;" class="race-source-text font-monospace"></textarea>
                         </div>
                       </div>
             
@@ -209,10 +205,13 @@
             </div>
             <!-- /Grid -->
         </div>
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container fixed-bottom">
+            <p class="col-md-4 mb-0 text-muted">© 2023 <a href="https://jezl.xyz">Jeremy Luscombe</a></p>        
+          </footer>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<script src="index.js"></script>
+<script src="index.min.js"></script>
 </body>
 </html>
 
