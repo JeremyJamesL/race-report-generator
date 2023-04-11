@@ -1,0 +1,24 @@
+{
+  "name": "race-report-generator",
+  "version": "1.0.0",
+  "description": "Simple race report generator for posting race reports on r/running",
+  "source": "index.html",
+  "scripts": {
+    "test": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremyJamesL/race-report-generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeremyJamesL/race-report-generator/issues"
+  },
+  "homepage": "https://github.com/JeremyJamesL/race-report-generator#readme",
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}

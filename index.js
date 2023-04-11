@@ -292,7 +292,7 @@ function handleSubmit(event) {
 
     const activityID = (form.elements[0].value);    
     localStorage.setItem('actID', activityID);
-    const url = `https://www.strava.com/oauth/authorize?client_id=96784&response_type=code&redirect_uri=https://jezl.xyz/&approval_prompt=force&scope=activity:read_all`;
+    const url = `https://www.strava.com/oauth/authorize?client_id=96784&response_type=code&redirect_uri=https://race-report-gen.jezl.xyz/&approval_prompt=force&scope=activity:read_all`;
     window.location = url;
 }
 
