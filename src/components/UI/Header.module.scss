@@ -1,0 +1,17 @@
+@use "../../sass/abstracts/variables" as v;
+
+.header {
+    background-color: v.$background-color-primary;
+    padding: 1rem 1.5rem;
+
+    &__site-title {
+        text-transform: uppercase;
+        font-size: 2rem;
+        font-weight: 300;
+
+        span {
+            font-weight: bold;
+        }
+    }
+
+}

@@ -1,0 +1,22 @@
+@use "../../sass/abstracts/variables" as v;
+
+.footer {
+    background-color: v.$background-color-primary;
+    padding: 1rem 1.5rem;
+    
+    &__inner {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+
+        p:nth-child(2) {
+            flex-grow: 1;
+        }
+
+    }
+
+    a {
+        text-decoration: underline;
+        color: v.$color-white;
+    }
+}
