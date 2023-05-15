@@ -1,9 +1,10 @@
 @use "../../sass/abstracts/variables" as v;
 
 .card {
+    position: relative;
     background-color: v.$background-color-primary;
     padding: 2rem;
-
+    
     &:not(:last-child) {
         margin-bottom: 3rem;
     }
@@ -13,6 +14,12 @@
         font-size: 1.9rem;
         font-weight: 300;
         margin-bottom: 1.5rem;
+    }
+
+    &__actions {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
     }
 
 }

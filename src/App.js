@@ -8,53 +8,73 @@ import Goals from './components/Blocks/Goals';
 import Splits from './components/Blocks/Splits';
 import Preview from './components/Blocks/Preview';
 import Footer from './components/UI/Footer';
-import { Fragment, useEffect, useState } from 'react';
+import dummyData from './components/Data/data';
+import { Fragment, useEffect, useReducer, useState } from 'react';
+import AppContext from './components/Context/app-context';
 import './App.scss';
 
 const clientId = '96784';
 const activityID = '8076222179';
 const clientSecret = 'fac7d050a2167b73f126050654539331d0ce413c';
-const callActivity = 'https://www.strava.com/api/v3/activities/id?access_token=';
 
-const dummyData = {
-  name: 'Richmond half',
-  data: '11-22-2022',
-  distance: 21.1,
-  location: 'London, England',
-  finishTime: '1:41:22',
-  elevation: 520,
-  splits: [
-    {
-      name: "Lap 1",
-      time: "5:20"
-    },
-    {
-      name: "Lap 2",
-      time: "5:20"
-    },
-    {
-      name: "Lap 3",
-      time: "5:20"
-    },
-    {
-      name: "Lap 4",
-      time: "5:20"
-    },
-    {
-      name: "Lap 5",
-      time: "5:20"
-    },
-    {
-      name: "Lap 6",
-      time: "5:20"
+// Convert times
+const convertToMinSec = (s) => {
+  const minutes = Math.floor(s / 60);
+  const seconds = s % 60;
+  
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  const result = `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
+  return result;
+}
+
+// Reducer functions
+const raceReducer = (raceData, action) => {
+  switch(action.type) {
+    case 'addNewRace' : {
+      return action.newRace
     }
-  ]
-} 
+
+    case 'switchToMiles': {
+      return {
+        ...raceData,
+        splits: raceData.splitsMiles,
+        chosenMeasurementSystem: 'miles',
+      }
+    }
+
+  }
+}
 
 function App() {
   const [showBlocks, updateShowBlocks] = useState(false);
-  const [raceData, updateRaceData] = useState(dummyData);
+  const [raceData, dispatch] = useReducer(raceReducer, dummyData);
   const [isLoading, setIsLoading] = useState(true);
+  console.log(raceData);
+
+  // Reducer actions
+  const handleAddNewRace = (race) => {
+    dispatch({
+      type: 'addNewRace', 
+      newRace: race
+    })
+  }
+
+  const handleSwitchToMiles = (measurement) => {
+    dispatch ({
+      type: 'switchToMiles',
+    })
+  }
+
+  const updateInputVal = (input) => {
+    // dispatch ({
+    //   type: 'updateInput',
+    //   newValue: input
+    // })
+    console.log(`updating input val in app.js ${input}`);
+  }
 
   // Authorize
   const authorize = () => {
@@ -69,24 +89,30 @@ function App() {
     try {
       const response = await fetch(`https://www.strava.com/api/v3/activities/${activityID}?access_token=${accessToken}`);
       if (!response.ok) {
-        throw new Error(`Something went wrong ${response}`)
+        throw new Error(`Something went wrong ${response}`);
       }
 
       const data = await response.json();
+
       const transformedData = {
         name: data.name,
         date: data.start_date_local,
         distance: data.distance,
         location: `${data.location_city}, ${data.location_country}`,
-        finishTime: data.elapsed_time,
+        finishTime: convertToMinSec(data.elapsed_time),
         elevation: data.total_elevation_gain,
+        splitsKM: data.splits_metric,
+        splitsMiles: data.splits_standard,
+
+        // Evaluate user measurement system
+        chosenMeasurementSystem: '',
         splits: data.laps.map(lap => ({
           name: lap.name,
-          time: lap.elapsed_time
+          time: convertToMinSec(lap.elapsed_time)
         }))
       };
 
-      updateRaceData(transformedData);
+      handleAddNewRace(transformedData);
 
     } catch (error) {
         console.log(`error occurred${error}`);
@@ -95,31 +121,48 @@ function App() {
     updateShowBlocks(true);
   }
 
-  // Test for Strace redirect URL on reload
+  // Test for Strava redirect URL on reload
   useEffect(() => {
-    if(window.location.search !== '') {
       setIsLoading(true);
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const code = urlParams.get('code');
 
-      if(code != null) {
-        fetch(`https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}&grant_type=authorization_code`, {
-            method: 'POST'
-        })
-        .then(response => response.json())
-        .then(result => displayData(result.access_token, activityID));
-    }
+      if(code !== null) {
 
-    } else {
-      console.log('not a strava url');
-      setIsLoading(false);
-    }
+        const fetchURL = async() => {
+          try {
+            const response = await fetch(`https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}&grant_type=authorization_code`, {method: 'POST'});
+
+            if (!response.ok) {
+              throw new Error(`Something went wrong ${response}`);
+            }        
+
+            const data = await response.json();
+            displayData(data.access_token, activityID)
+
+          }
+          catch (error) {
+            console.log(`error occurred${error}`);
+          }
+        }
+
+        fetchURL();
+
+      }
+
+      else {
+        console.log('not a strava url');
+        setIsLoading(false);
+      }
   }, [])
 
-  return (
 
-    <Fragment>
+  return (
+    <AppContext.Provider value={{
+      raceData,
+      updateInputVal
+    }}>
       <Header showBlocks={showBlocks}/>
 
       <main className='main'>
@@ -131,27 +174,24 @@ function App() {
 
         {isLoading &&
             <Spinner/>
-        }
-
-
+          }
 
         {showBlocks &&
         <div className="row-util">
             <div className="col-1-of-3">
               <RaceInfo raceData={raceData}/>
               <Goals/>
-              <Splits raceData={raceData}/>
+              <Splits raceData={raceData} handleSwitchToMiles={handleSwitchToMiles}/>
             </div>
             <div className="col-2-of-3">
-                <Preview/>
+                <Preview raceData={raceData}/>
             </div>
         </div>
         }
 
       </main>
       <Footer/>
-    </Fragment>
-
+    </AppContext.Provider>
   );
 }
 
