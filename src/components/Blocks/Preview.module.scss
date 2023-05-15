@@ -1,3 +1,28 @@
 .preview {
-    
+    &__section {
+        &:not(:last-child) {
+            margin-bottom: 2rem;
+        }
+    }
+
+    &__title {
+        text-transform: uppercase;
+        font-size: 1.6rem;
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+    }
+
+    &__list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    &__key {
+        font-weight: bold;
+    }
+
+    &__value {
+
+    }
+
 }

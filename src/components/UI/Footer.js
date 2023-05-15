@@ -6,12 +6,12 @@ function Footer() {
 
   return (
     <footer className={s.footer}>
-        <div className={`row ${s['footer__inner']}`}>
-            <p>@Jeremy Luscombe {year}</p>
-            <p>
-                <a href="#">Github</a>  
-                <a href="#">Twitter</a>
-            </p>
+        <div className={`row-util ${s['footer__inner']}`}>
+            <span>@Jeremy Luscombe {year}</span>
+              <ul className={s['footer__socials']}>
+                <li><a href="#">Github</a></li>
+                <li><a href="#">Twitter</a></li>
+              </ul>
         </div>
     </footer>
   )

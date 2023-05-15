@@ -6,7 +6,7 @@ function Input(props) {
     <Fragment>
         <div className={s.input}>
             <label htmlFor={props.name} className={s['input__label']}>{props.label}</label>
-            <input type="text" name={props.name} className={s['input__field']} />
+            <input type="text" name={props.name} value={props.value} className={s['input__field']} />
         </div>
     </Fragment>
   )

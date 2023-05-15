@@ -1,0 +1,14 @@
+@use "../../sass/abstracts/variables" as v;
+
+.button {
+    display: inline-block;
+    text-transform: uppercase;
+    padding: .5rem 1rem;
+    color: v.$color-grey-dark;
+    background-color: v.$color-grey-light-1;
+
+    &__icon {
+        max-width: 20px;
+        height: auto;
+    }
+}

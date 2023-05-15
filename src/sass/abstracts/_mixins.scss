@@ -13,6 +13,9 @@
     transform: translate(-50%, -50%);
 }
 
+@mixin flexRight {
+    flex-grow: 1;
+}
 
 // MEDIA QUERY MANAGER
 /*

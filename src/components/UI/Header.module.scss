@@ -1,14 +1,31 @@
 @use "../../sass/abstracts/variables" as v;
+@use '../../sass/abstracts/mixins' as m;
 
 .header {
     background-color: v.$background-color-primary;
     padding: 1rem 1.5rem;
 
+    &__inner {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__btn {
+        margin-left: auto;
+    }
+
     &__site-title {
         text-transform: uppercase;
         font-size: 2rem;
         font-weight: 300;
+        display: inline-block;
 
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
         span {
             font-weight: bold;
         }

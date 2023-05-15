@@ -2,9 +2,10 @@ import Card from "../UI/Card";
 import Input from "../Input/Input";
 
 function RaceInfo(props) {
+  const d = props.raceData;
   return (
     <Card className="add-your-own" title="Race information">
-        <Input type="text" name="race-name" label="Race name" value="Richmond Half"/>
+        <Input type="text" name="race-name" label="Race name" value={d.name}/>
         <Input type="text" name="date" label="Date" value="Sunday, Nov 22"/>
         <Input type="text" name="distance" label="Distance" value="21.37km"/>
         <Input type="text" name="location" label="Location" value="London, UK"/>

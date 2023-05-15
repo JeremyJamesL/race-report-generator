@@ -3,20 +3,34 @@
 .footer {
     background-color: v.$background-color-primary;
     padding: 1rem 1.5rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     
     &__inner {
         display: flex;
         justify-content: space-between;
-        flex-direction: row;
+        align-items: center;
+    }
 
-        p:nth-child(2) {
-            flex-grow: 1;
+    &__socials {
+        text-align: right;
+        flex-grow: 1;
+
+        li {
+            display: inline-block;
+
+            &:not(:last-child) {
+                margin-right: 5px;
+            }
+
         }
-
+        
+        a {
+            text-decoration: underline;
+            color: v.$color-white;
+        }
     }
 
-    a {
-        text-decoration: underline;
-        color: v.$color-white;
-    }
+   
 }
