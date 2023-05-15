@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import stravaIcon from './assets/images/strava.png';
 import Button from './components/UI/Button';
+import Spinner from './components/UI/Spinner';
 import Header from './components/UI/Header';
 import RaceInfo from './components/Blocks/RaceInfo';
 import Goals from './components/Blocks/Goals';
@@ -128,10 +129,11 @@ function App() {
           </div>
         }
 
-
         {isLoading &&
-          <p>fetching...</p>
+            <Spinner/>
         }
+
+
 
         {showBlocks &&
         <div className="row-util">

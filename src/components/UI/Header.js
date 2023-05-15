@@ -10,7 +10,7 @@ function Header(props) {
               <a href="/">👟<span>Strava</span> Race Report Generator</a>
             </h1>
             {props.showBlocks &&
-              <Button text="Update race" icon={stravaIcon} className={s['header__btn']}/>
+              <Button text="Add new race" icon={stravaIcon} className={s['header__btn']}/>
             }
         </div>
     </header>
