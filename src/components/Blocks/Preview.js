@@ -6,7 +6,13 @@ function Preview(props) {
   const d = props.raceData;
 
   const splitsAsTable = (s) => {
-    return ( <tr><td>{s.name}</td><td>{s.time}</td></tr>)
+    return ( <tr><td>{s.split}</td><td>{s.elapsed_time}</td></tr>)
+  }
+
+  const goalsAsTable = (g) => {
+    return ( <tr><td>Goal {g.name}</td><td>{g.value}</td><td>
+        {g.completed ? 'yes' : 'no'}
+      </td></tr> )
   }
 
   return (
@@ -47,16 +53,7 @@ function Preview(props) {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Sub 1:20</td>
-                  <td>Yes</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Sub 1:30</td>
-                  <td>No</td>
-                </tr>
+               {d.goals.map(goalsAsTable)}
               </tbody>
             </Table>
           </div>

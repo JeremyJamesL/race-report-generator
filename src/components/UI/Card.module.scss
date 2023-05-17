@@ -22,4 +22,20 @@
         right: 1rem;
     }
 
+    &__buttons {
+
+        button {
+            padding: .3rem .5rem;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            color: v.$color-grey-dark;
+            background-color: v.$color-grey-light-1;
+            
+            &:disabled {
+                background-color: rgba(0,0,0,.2);
+            }
+        }
+
+    }
+
 }

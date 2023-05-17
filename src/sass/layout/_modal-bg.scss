@@ -1,0 +1,20 @@
+.modal-bg {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__close {
+        position: absolute;
+        font-size: 2rem;
+        top: 10px;
+        left: 10px;
+    }
+
+} 

@@ -1,30 +1,36 @@
 import AppContext from '../Context/app-context';
 import s from './Input.module.scss';
-import { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 
 function Input(props) {
-  const [inputValue, updateInputValue] = useState(props.value);
   const ctx = useContext(AppContext);
 
-  useCallback(() => {
-    const debounce = setTimeout(() => {
-      ctx.updateInputVal(inputValue);
-    }, 200);
-
-    return () => {
-      clearTimeout(debounce);
+  const handleCheckboxChange = (e) => {
+    const goal = {
+      name: e.target.name,
+      newVal: e.target.checked 
     }
-  }, [inputValue])
+    ctx.updateGoalCompleted(goal);
+  }
 
-  // useCallback(() => )
+  const changeHandler = (e) => {
+    ctx.updateInputVal(e.target.value, props.name, props.dataType);
+  }
 
   return (
-    <Fragment>
-        <div className={s.input}>
-            <label htmlFor={props.name} className={s['input__label']}>{props.label}</label>
-            <input type="text" name={props.name} value={inputValue} className={s['input__field']} onChange={(e) => updateInputValue(e.target.value)}/>
-        </div>
-    </Fragment>
+      <div className={`${s.input} ${props.className}`}>
+          <label htmlFor={props.name} className={s['input__label']}>{props.label}</label>
+          <div className={`${s['input__group']}`}>
+            <input type="text" name={props.name} value={props.value} className={s['input__field']} onChange={changeHandler}/>
+
+            {props.dataType === 'goal' &&
+            <div className={s['input__checkbox-container']}>
+              <input type='checkbox' name={props.name} className={s['input__checkbox']} onChange={handleCheckboxChange}/>
+            </div>
+            }
+          </div>
+      </div>
+
   )
 }
 export default Input

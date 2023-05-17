@@ -1,7 +1,8 @@
 @use "../../sass/abstracts/variables" as v;
 
 .button {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     text-transform: uppercase;
     padding: .5rem 1rem;
     color: v.$color-grey-dark;
@@ -9,6 +10,14 @@
 
     &__icon {
         max-width: 20px;
+        margin-right: .2rem;
+        font-size: 3rem;
         height: auto;
+        fill: v.$color-primary;
+
+        &--start-again {
+            transform: rotate(-180deg);
+        }
+
     }
 }

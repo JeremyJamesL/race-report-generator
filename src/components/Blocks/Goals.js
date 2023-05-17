@@ -1,11 +1,17 @@
+import s from './Goals.module.scss';
 import Card from "../UI/Card";
 import Input from "../Input/Input";
 
-function Goals() {
+function Goals(props) {
+  const renderGoals = (goal) => {
+    return (
+        <Input type="text" name={goal.name} label={`Goal ${goal.name}`} value={goal.value} dataType="goal"/>
+    )
+  }
+
   return (
-    <Card title="goals">
-        <Input type="text" name="goal-1" label="Goal 1"/>
-        <Input type="text" name="goal-2" label="Goal 2"/>
+    <Card title="Goals">
+      {props.raceData.goals.map(g => renderGoals(g))}
     </Card>
   )
 }
