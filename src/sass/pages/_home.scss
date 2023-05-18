@@ -1,7 +1,14 @@
 .home { 
-    &__btn {
+
+    &__buttons{
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
+    }
+    &__btn {
+
+        &:not(:last-child) {
+            margin-bottom: 2rem;
+        }
     }
 }

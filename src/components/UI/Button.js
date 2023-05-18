@@ -8,21 +8,22 @@ function Button(props) {
   const handleBtnClick = (e) => {
     if(e.target.textContent === 'Add Strava race') {
       props.authorize();
-      return;
     }
     if(e.target.textContent === 'Generate markdown') {
       ctx.updateShowMarkdown(true);
-      return;
     }
     if(e.target.textContent === 'Start again') {
       ctx.updateShowBlocks(false);
+    }
+    if(e.target.textContent === 'Enter manually') {
+      ctx.setEnterMode('manual');
+      ctx.updateShowBlocks(true);
     }
   }
 
   return (
     <button className={`${s.button} ${props.className}`} onClick={handleBtnClick}>
         {props.icon}
-        {/* <img src={props.icon} alt="" className={s['button__icon']}/> */}
         {props.text}
     </button>
   )

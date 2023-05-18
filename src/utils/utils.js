@@ -12,8 +12,9 @@ const convertDateToReadable = (userDate) => {
 
 // Convert seconds to min, seconds
 const convertToMinSec = (s) => {
-    const minutes = Math.floor(s / 60);
-    const seconds = s % 60;
+    const sec = Math.trunc(s);
+    const minutes = Math.floor(sec / 60);
+    const seconds = sec % 60;
     
     function padTo2Digits(num) {
       return num.toString().padStart(2, '0');
@@ -33,4 +34,13 @@ const metresToKm = (m) => {
     return (m / 1000).toFixed(2);
 }
 
-export {convertDateToReadable, convertToMinSec, convertSecondsToHMS, metresToKm}
+// Convert MM:SS to seconds
+const convertMinSecToSec = (ms) => {
+    const removeWhiteSpace = ms.trim();
+    const splitString = removeWhiteSpace.split(':');
+    const minInSec = Number(splitString[0] * 60);
+    const secInSec = Number(splitString[1]);
+    return minInSec + secInSec;
+}
+
+export {convertDateToReadable, convertToMinSec, convertSecondsToHMS, metresToKm, convertMinSecToSec}

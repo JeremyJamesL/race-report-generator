@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BsStrava } from "react-icons/bs";
+import { BsStrava, BsFillPenFill } from "react-icons/bs";
 import Markdown from './components/Modals/Markdown';
 import Button from './components/UI/Button';
 import Spinner from './components/UI/Spinner';
@@ -14,7 +14,7 @@ import ReactDOM from 'react-dom';
 import { Fragment, useEffect, useReducer, useState } from 'react';
 import AppContext from './components/Context/app-context';
 import bs from './components/UI/Button.module.scss';
-import {convertDateToReadable, convertToMinSec, convertSecondsToHMS, metresToKm} from './utils/utils';
+import {convertDateToReadable, convertToMinSec, convertSecondsToHMS, metresToKm, convertMinSecToSec} from './utils/utils';
 import './App.scss';
 
 const clientId = '96784';
@@ -61,10 +61,10 @@ const raceReducer = (raceData, action) => {
           return {
             ...raceData,
             chosenMeasurementSystem: 'miles',
-            splits: raceData.splitsMiles.map(s => {
+            splits: raceData.splits.map(s => {
               return {
                 ...s,
-                elapsed_time: convertToMinSec(s.elapsed_time)
+                elapsed_time: convertToMinSec(convertMinSecToSec(s.elapsed_time) * 1.609)
               }
             })
           }
@@ -73,14 +73,34 @@ const raceReducer = (raceData, action) => {
           return {
             ...raceData,
             chosenMeasurementSystem: 'km',
-            splits: raceData.splitsKM.map(s => {
+            splits: raceData.splits.map(s => {
               return {
                 ...s,
-                elapsed_time: convertToMinSec(s.elapsed_time)
+                elapsed_time: convertToMinSec(convertMinSecToSec(s.elapsed_time) / 1.609)
               }
             })
           }
         }
+    }
+
+    case 'deleteOrAddSplit' : {
+      if(action.operation === 'delete') {
+        return {
+          ...raceData,
+          splits: raceData.splits.filter((_, i) => 
+            i !== raceData.splits.length-1
+          )
+        }
+      } else if(action.operation === 'add') {
+        console.log('adding split')
+        return {
+          ...raceData,
+          splits: raceData.splits.concat({
+            split: (raceData.splits.length + 1).toString(),
+            elapsed_time: '05:20'
+          })
+        }
+      }
     }
 
     case 'deleteOrAddGoal' : {
@@ -118,6 +138,7 @@ function App() {
   const [raceData, dispatch] = useReducer(raceReducer, dummyData);
   const [isLoading, setIsLoading] = useState(true);
   const [showMarkdown, updateShowMarkdown] = useState(false);
+  const [enterMode, setEnterMode] = useState('');
   console.log(raceData)
 
   // Reducer actions
@@ -139,6 +160,13 @@ function App() {
   const deleteOrAddGoal = (operation) => {
     dispatch({
       type: 'deleteOrAddGoal',
+      operation: operation
+    })
+  }
+
+  const deleteOrAddSplit = (operation) => {
+    dispatch({
+      type: 'deleteOrAddSplit', 
       operation: operation
     })
   }
@@ -262,7 +290,10 @@ function App() {
       updateShowMarkdown,
       updateShowBlocks,
       deleteOrAddGoal,
-      changeMeasurement
+      deleteOrAddSplit,
+      changeMeasurement,
+      setEnterMode,
+      enterMode
     }}>
 
       {showMarkdown &&
@@ -274,7 +305,10 @@ function App() {
       <main className='main'>
         {!showBlocks && !isLoading &&
           <div className={`row-util home`}>
+          <div className='home__buttons'>
             <Button text="Add Strava race" icon={<BsStrava className={bs['button__icon']}/>} className='home__btn button__icon' authorize={authorize}/>
+            <Button text="Enter manually" icon={<BsFillPenFill className={bs['button__icon']}/>} className='home__btn button__icon' />
+          </div>
           </div>
         }
         {isLoading &&

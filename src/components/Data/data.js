@@ -1,6 +1,6 @@
 const dummyData = {
-    name: 'Richmond half',
-    date: '11-22-2022',
+    name: 'Race name',
+    date: 'Sunday, 12 November, 2022',
     distance: 21.1,
     location: 'London, England',
     finishTime: '1:41:22',
@@ -20,28 +20,28 @@ const dummyData = {
     ],
     splits: [
       {
-        name: "Lap 1",
-        time: "5:20"
+        split: "1",
+        elapsed_time: "5:20"
       },
       {
-        name: "Lap 2",
-        time: "5:20"
+        split: "2",
+        elapsed_time: "5:20"
       },
       {
-        name: "Lap 3",
-        time: "5:20"
+        split: "3",
+        elapsed_time: "5:20"
       },
       {
-        name: "Lap 4",
-        time: "5:20"
+        split: "4",
+        elapsed_time: "5:20"
       },
       {
-        name: "Lap 5",
-        time: "5:20"
+        split: "5",
+        elapsed_time: "5:20"
       },
       {
-        name: "Lap 6",
-        time: "5:20"
+        split: "6",
+        elapsed_time: "5:20"
       }
     ]
   } 
