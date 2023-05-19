@@ -19,7 +19,9 @@ function Input(props) {
 
   return (
       <div className={`${s.input} ${props.className}`}>
+        {props.label !== undefined &&
           <label htmlFor={props.name} className={s['input__label']}>{props.label}</label>
+        }
           <div className={`${s['input__group']}`}>
             <input type="text" name={props.name} value={props.value} className={s['input__field']} onChange={changeHandler}/>
 

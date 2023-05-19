@@ -9,21 +9,25 @@ function Button(props) {
     if(e.target.textContent === 'Add Strava race') {
       props.authorize();
     }
-    if(e.target.textContent === 'Generate markdown') {
+    else if(e.target.textContent === 'Generate markdown') {
       ctx.updateShowMarkdown(true);
     }
-    if(e.target.textContent === 'Start again') {
+    else if(e.target.textContent === 'Start again') {
+      ctx.resetRace();
       ctx.updateShowBlocks(false);
     }
-    if(e.target.textContent === 'Enter manually') {
+    else if(e.target.textContent === 'Enter manually') {
       ctx.setEnterMode('manual');
       ctx.updateShowBlocks(true);
+    }
+    else if(e.target.textContent === 'Help') {
+      ctx.updateShowHelp(true);
     }
   }
 
   return (
     <button className={`${s.button} ${props.className}`} onClick={handleBtnClick}>
-        {props.icon}
+        <span className={s['button__icon']}>{props.icon}</span>
         {props.text}
     </button>
   )

@@ -6,6 +6,7 @@ import bs from '../UI/Button.module.scss';
 import SwitchMetric from "../Input/SwitchMetrics";
 import AddDeleteSplits from "../Input/AddDeleteSplits";
 import AddDeleteGoals from "../Input/AddDeleteGoals";
+import AddDeleteTextSection from "../Input/AddDeleteTextSection";
 import Button from "./Button";
 
 function Card(props) {
@@ -22,6 +23,7 @@ function Card(props) {
               <AddDeleteSplits className={s['card__buttons']} />
             </div>
           : ''}
+          {props.title === 'Text sections' ? <AddDeleteTextSection className={s['card__buttons']}/> : ''}
           {props.title === 'Goals' ? <AddDeleteGoals className={s['card__buttons']} /> : ''}
         </div>
       </div>

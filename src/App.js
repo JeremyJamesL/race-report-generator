@@ -1,17 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BsStrava, BsFillPenFill } from "react-icons/bs";
+import { BsStrava, BsFillPenFill, BsFillInfoCircleFill } from "react-icons/bs";
 import Markdown from './components/Modals/Markdown';
+import Help from './components/Modals/Help';
 import Button from './components/UI/Button';
 import Spinner from './components/UI/Spinner';
 import Header from './components/UI/Header';
 import RaceInfo from './components/Blocks/RaceInfo';
 import Goals from './components/Blocks/Goals';
+import TextSections from './components/Blocks/TextSections';
 import Splits from './components/Blocks/Splits';
 import Preview from './components/Blocks/Preview';
 import Footer from './components/UI/Footer';
 import dummyData from './components/Data/data';
 import ReactDOM from 'react-dom';
-import { Fragment, useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import AppContext from './components/Context/app-context';
 import bs from './components/UI/Button.module.scss';
 import {convertDateToReadable, convertToMinSec, convertSecondsToHMS, metresToKm, convertMinSecToSec} from './utils/utils';
@@ -24,6 +26,10 @@ const clientSecret = 'fac7d050a2167b73f126050654539331d0ce413c';
 // Reducer functions
 const raceReducer = (raceData, action) => {
   switch(action.type) {
+
+    case 'resetRaceData' : {
+      return dummyData;
+    }
 
     case 'addNewRace' : {
       return action.newRace;
@@ -45,7 +51,17 @@ const raceReducer = (raceData, action) => {
           ...raceData,
           splits: raceData.splits.map((s) => s.split === action.name ? {...s, elapsed_time : action.newValue} : s)
         }
-        // console.log(action.name);
+      } else if(action.dataType === 'section') {
+        return {  
+          ...raceData,
+          textSections: raceData.textSections.map((s, i) => {
+            if(i === action.name) {
+              return s = action.newValue
+            } else {
+              return s
+            }
+          })
+        }
       }
     }
     
@@ -53,6 +69,24 @@ const raceReducer = (raceData, action) => {
       return {
         ...raceData,
         goals: raceData.goals.map((g) => g.name === action.goalID ? {...g, completed: action.newValue} : g )
+      }
+    }
+
+    case 'deleteOrAddSection' : {
+      if(action.operation === 'add') {
+        return {
+          ...raceData,
+          textSections: [
+            ...raceData.textSections,
+            'Add title'
+          ]
+        }
+      } else {
+          return {
+            ...raceData,
+            textSections: raceData.textSections.filter((_, i) => 
+            i !== raceData.textSections.length-1)
+          }
       }
     }
 
@@ -92,7 +126,6 @@ const raceReducer = (raceData, action) => {
           )
         }
       } else if(action.operation === 'add') {
-        console.log('adding split')
         return {
           ...raceData,
           splits: raceData.splits.concat({
@@ -105,7 +138,6 @@ const raceReducer = (raceData, action) => {
 
     case 'deleteOrAddGoal' : {
         if(action.operation === 'delete') {
-          console.log('deleting')
           return {
             ...raceData,
             goals: raceData.goals.filter((_, i) => 
@@ -138,6 +170,7 @@ function App() {
   const [raceData, dispatch] = useReducer(raceReducer, dummyData);
   const [isLoading, setIsLoading] = useState(true);
   const [showMarkdown, updateShowMarkdown] = useState(false);
+  const [showHelp, updateShowHelp] = useState(false);
   const [enterMode, setEnterMode] = useState('');
   console.log(raceData)
 
@@ -146,6 +179,12 @@ function App() {
     dispatch({
       type: 'addNewRace', 
       newRace: race
+    })
+  }
+
+  const resetRace = () => {
+    dispatch({
+      type: 'resetRaceData'
     })
   }
 
@@ -160,6 +199,13 @@ function App() {
   const deleteOrAddGoal = (operation) => {
     dispatch({
       type: 'deleteOrAddGoal',
+      operation: operation
+    })
+  }
+
+  const deleteOrAddTextSection = (operation) => {
+    dispatch({
+      type: 'deleteOrAddSection',
       operation: operation
     })
   }
@@ -196,7 +242,7 @@ function App() {
 
   // Fetch race data
   const displayData = async(accessToken, activityID) => {
-    console.log(accessToken, activityID);
+    // console.log(accessToken, activityID);
     try {
       const response = await fetch(`https://www.strava.com/api/v3/activities/${activityID}?access_token=${accessToken}`);
       if (!response.ok) {
@@ -204,7 +250,7 @@ function App() {
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       const transformedData = {
         name: data.name || '',
@@ -215,6 +261,9 @@ function App() {
         elevation: data.total_elevation_gain || '',
         splitsKM: data.splits_metric || '',
         splitsMiles: data.splits_standard || '',
+        textSections: [
+          'Background', 'Training', 'Pre-race'
+        ],
         goals: [
           {
             name: "1",
@@ -288,18 +337,26 @@ function App() {
       updateInputVal,
       updateGoalCompleted,
       updateShowMarkdown,
+      updateShowHelp,
+      showMarkdown,
+      showHelp,
       updateShowBlocks,
       deleteOrAddGoal,
       deleteOrAddSplit,
+      deleteOrAddTextSection,
       changeMeasurement,
       setEnterMode,
+      resetRace,
       enterMode
     }}>
 
       {showMarkdown &&
        ReactDOM.createPortal(<Markdown raceData={raceData}/>, document.getElementById('root-markdown'))
       }
-      
+
+      {showHelp &&
+       ReactDOM.createPortal(<Help/>, document.getElementById('root-help'))
+      }
       <Header showBlocks={showBlocks}/>
 
       <main className='main'>
@@ -308,6 +365,7 @@ function App() {
           <div className='home__buttons'>
             <Button text="Add Strava race" icon={<BsStrava className={bs['button__icon']}/>} className='home__btn button__icon' authorize={authorize}/>
             <Button text="Enter manually" icon={<BsFillPenFill className={bs['button__icon']}/>} className='home__btn button__icon' />
+            <Button text="Help" icon={<BsFillInfoCircleFill className={bs['button__icon']}/>} className='home__btn button__icon'/>
           </div>
           </div>
         }
@@ -317,8 +375,9 @@ function App() {
         {showBlocks &&
         <div className="row-util">
             <div className="col-1-of-3">
-              <RaceInfo raceData={raceData}/>
-              <Goals raceData={raceData}/>
+              <RaceInfo raceData={raceData} />
+              <Goals raceData={raceData} />
+              <TextSections raceData={raceData} />
               <Splits raceData={raceData} />
             </div>
             <div className="col-2-of-3">

@@ -1,18 +1,31 @@
+import { useContext } from "react";
+import AppContext from "../Context/app-context";
 import s from "./Preview.module.scss";
 import { Table } from "react-bootstrap";
 import Card from "../UI/Card";
+import { toAlpha } from "../../utils/utils";
 
-function Preview(props) {
-  const d = props.raceData;
+function Preview() {
+  const ctx = useContext(AppContext);
+  const d = ctx.raceData;
 
   const splitsAsTable = (s) => {
     return ( <tr><td>{s.split}</td><td>{s.elapsed_time}</td></tr>)
   }
 
   const goalsAsTable = (g) => {
-    return ( <tr><td>Goal {g.name}</td><td>{g.value}</td><td>
+    return (<tr><td>Goal {toAlpha(g.name)}</td><td>{g.value}</td><td>
         {g.completed ? 'yes' : 'no'}
       </td></tr> )
+  }
+
+  const textSectionsOutput = (t) => {
+    return (
+      <>
+        <h2 className={s['preview__title']}>{t}</h2>
+        <p className={s['preview__value']}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod sapien quis massa dignissim, nec fermentum est scelerisque. Suspendisse eget porttitor dolor. Donec mollis augue luctus odio cursus mollis. Maecenas condimentum odio sed felis ornare pharetra. In hac habitasse platea dictumst. Nullam id molestie ex, sed pellentesque turpis. Aliquam consectetur massa in dictum cursus.</p>
+      </>
+    )
   }
 
   return (
@@ -41,6 +54,9 @@ function Preview(props) {
                     <span className={s['preview__value']}>{d.elevation}</span>
                   </li>
               </ul>
+          </div>
+          <div className={s['preview__section']}>
+            {d.textSections.map(textSectionsOutput)}
           </div>
           <div className={s['preview__section']}>
             <h2 className={s['preview__title']}>Goals</h2>

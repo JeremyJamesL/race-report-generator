@@ -43,4 +43,16 @@ const convertMinSecToSec = (ms) => {
     return minInSec + secInSec;
 }
 
-export {convertDateToReadable, convertToMinSec, convertSecondsToHMS, metresToKm, convertMinSecToSec}
+// Convert number to alphabet
+const toAlpha = (n) => {
+    const num = Number(n);
+    if(num < 1 || num > 26 || typeof num !== 'number'){
+       return -1;
+    }
+    const leveller = 64;
+
+    return String.fromCharCode(num + leveller);
+ };
+
+
+export {convertDateToReadable, convertToMinSec, convertSecondsToHMS, metresToKm, convertMinSecToSec, toAlpha}

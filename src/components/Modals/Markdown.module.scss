@@ -1,18 +1,11 @@
 @use '../../sass/abstracts/variables' as v;
 
 .markdown {
-    position: relative;
-    z-index: 2;
-    width: auto;
-    background-color: v.$color-white;
-    color: v.$color-black;
-    padding: 2rem;
-    cursor: pointer;
-
     &__copy {
         display: flex;
         justify-content: flex-end;
         margin-bottom: 1.5rem;
+        cursor: pointer;
     }
     
     &__textarea {
@@ -20,14 +13,4 @@
         height: 30rem;
         white-space: pre-wrap;
     }
-
-    &__close {
-        position: absolute;
-        color: v.$color-white;
-        top: -4.5rem;
-        left: -3rem;
-        font-size: 3rem;
-        z-index: 3;
-    }
-
 }

@@ -8,12 +8,13 @@
     color: v.$color-grey-dark;
     background-color: v.$color-grey-light-1;
 
+
     &__icon {
         max-width: 20px;
         margin-right: .2rem;
-        font-size: 3rem;
         height: auto;
         fill: v.$color-primary;
+        pointer-events: none;
 
         &--start-again {
             transform: rotate(-180deg);

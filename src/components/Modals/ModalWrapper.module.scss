@@ -1,0 +1,33 @@
+@use '../../sass/abstracts/variables' as v;
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__inner {
+        position: relative;
+        z-index: 2;
+        width: auto;
+        background-color: v.$color-white;
+        color: v.$color-black;
+        padding: 2rem;
+    }
+
+    &__close {
+        position: absolute;
+        color: v.$color-white;
+        top: -4.5rem;
+        left: -3rem;
+        font-size: 3rem;
+        z-index: 3;
+        cursor: pointer;
+    }
+} 

@@ -7,7 +7,6 @@ function SwitchMetric(props) {
 
   const handleBtnClick = (e) => {
     if(e.target.name === 'miles') {
-      // console.log('miles switching')
       ctx.changeMeasurement('miles');
     } else {
       ctx.changeMeasurement('km');
