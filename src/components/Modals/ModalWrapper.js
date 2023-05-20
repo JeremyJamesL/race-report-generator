@@ -16,8 +16,12 @@ function ModalWrapper(props) {
     }
   }
 
+  const handleBGclick = (e) => {
+    console.log(e.target)
+  }
+
   return (
-    <div className={s['modal']}>
+    <div className={s['modal']} onClick={handleBGclick}>
             <div className={s['modal__inner']}>
             <div className={s['modal__close']} onClick={handleModalClose}><AiFillCloseCircle/></div>
                 {props.children}

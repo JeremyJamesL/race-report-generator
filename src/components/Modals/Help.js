@@ -7,7 +7,8 @@ function Help() {
     <ModalWrapper>
         <div className={s.help}>
             <h2 className={s['help__title']}>Help</h2>
-            <div className={s['help__video']}>
+            <p>Youtube video coming soon...</p>
+            {/* <div className={s['help__video']}>
                 <iframe
                 width="853"
                 height="480"
@@ -17,7 +18,7 @@ function Help() {
                 title="Embedded youtube"
                 />
                 <a href={`https://www.youtube.com/embed/${embedId}`} target='_blank'>Watch on Youtube</a>
-            </div>
+            </div> */}
         </div>
     </ModalWrapper>
   )

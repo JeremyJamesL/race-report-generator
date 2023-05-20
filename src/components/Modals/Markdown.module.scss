@@ -1,6 +1,8 @@
 @use '../../sass/abstracts/variables' as v;
+@use '../../sass/abstracts/mixins' as m;
 
 .markdown {
+
     &__copy {
         display: flex;
         justify-content: flex-end;
@@ -12,5 +14,10 @@
         width: 50rem;
         height: 30rem;
         white-space: pre-wrap;
+
+        @include m.respond(phone) {
+            width: 100%;
+        }
+
     }
 }

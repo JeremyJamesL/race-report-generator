@@ -1,4 +1,5 @@
 @use '../../sass/abstracts/variables' as v;
+@use '../../sass/abstracts/mixins' as m;
 
 .modal {
     position: fixed;
@@ -15,10 +16,15 @@
     &__inner {
         position: relative;
         z-index: 2;
-        width: auto;
+        max-width: 80%;
         background-color: v.$color-white;
         color: v.$color-black;
         padding: 2rem;
+
+        @include m.respond(phone) {
+            max-width: 80%;
+        }
+
     }
 
     &__close {
@@ -30,4 +36,6 @@
         z-index: 3;
         cursor: pointer;
     }
+
+
 } 

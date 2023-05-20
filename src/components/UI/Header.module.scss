@@ -10,6 +10,11 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+
+        @include m.respond(phone) {
+            flex-wrap: wrap;
+        }
+
     }
 
     &__buttons {
@@ -17,9 +22,24 @@
         flex-grow: 1;
         justify-content: flex-end;
 
+        @include m.respond(phone) {
+            flex-wrap: wrap;
+            justify-content: flex-start;;
+        }
+
         button {
+            @include m.respond(phone) { 
+                display: flex;
+                flex-grow: 1;
+                justify-content: center;
+            }
+
             &:not(:last-child) {
                 margin-right: 1rem;
+
+                @include m.respond(phone) { 
+                    margin-right: 0;
+                }
             }
         }
 
@@ -31,6 +51,11 @@
         font-size: 2rem;
         font-weight: 300;
         display: inline-block;
+
+        @include m.respond(phone) {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
 
         a {
             text-decoration: none;
