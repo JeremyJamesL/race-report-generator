@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as v;
+
 .home { 
     &__buttons{
         position: absolute;
@@ -12,5 +14,11 @@
         &:not(:last-child) {
             margin-bottom: 2rem;
         }
+    }
+
+    &__link {
+        color: v.$color-primary;
+        text-decoration: underline;
+        cursor: pointer;
     }
 }

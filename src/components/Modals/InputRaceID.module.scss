@@ -1,0 +1,37 @@
+.race-input {
+    
+
+    &__group {
+        font-size: 1.8rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        margin-bottom: 1rem;
+    }
+
+    &__pre-text {
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        border-right: none;
+        padding: 0.375rem 0.75rem;
+        border-top-left-radius: 0.375rem;
+        border-bottom-left-radius: 0.375rem;
+    }
+
+    &__input {
+        background-color: #fff;
+        padding-left: .3rem;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-top-right-radius: 0.375rem;
+        border-bottom-right-radius: 0.375rem;
+        -moz-appearance: textfield;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+    }
+}

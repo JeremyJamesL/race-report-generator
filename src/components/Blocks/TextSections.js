@@ -5,7 +5,7 @@ function TextSections(props) {
     const renderTextSections = (section, index) => {
 
     return (
-        <Input type="text" name={index} value={section} label={`Section ${index + 1}`} dataType="section"/>
+        <Input type="text" name={index} value={section} key={`Section ${index + 1}`} label={`Section ${index + 1}`} dataType="section"/>
     )
   }
 

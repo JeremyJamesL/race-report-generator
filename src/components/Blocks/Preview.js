@@ -9,12 +9,12 @@ function Preview() {
   const ctx = useContext(AppContext);
   const d = ctx.raceData;
 
-  const splitsAsTable = (s) => {
-    return ( <tr><td>{s.split}</td><td>{s.elapsed_time}</td></tr>)
+  const splitsAsTable = (s, i) => {
+    return ( <tr><td key={`first-row-${i}`}>{s.split}</td><td key={`second-row-${i}`}>{s.elapsed_time}</td></tr>)
   }
 
-  const goalsAsTable = (g) => {
-    return (<tr><td>Goal {toAlpha(g.name)}</td><td>{g.value}</td><td>
+  const goalsAsTable = (g, i) => {
+    return (<tr><td key={`first-row-${i}`}>Goal {toAlpha(g.name)}</td><td key={`second-row-${i}`}>{g.value}</td><td key={`third-row-${i}`}>
         {g.completed ? 'yes' : 'no'}
       </td></tr> )
   }
@@ -34,26 +34,34 @@ function Preview() {
           <div className={s['preview__section']}>
             <h2 className={s['preview__title']}>Race info</h2>
               <ul className={s['preview__list']}>
-                  <li className={s['preview__item']}>
+                  <li key="1" className={s['preview__item']}>
                     <span className={s['preview__key']}>Name: </span>
                     <span className={s['preview__value']}>{d.name}</span>
                   </li>
-                  <li className={s['preview__item']}>
+                  <li key="2" className={s['preview__item']}>
                     <span className={s['preview__key']}>Date: </span>
                     <span className={s['preview__value']}>{d.date}</span>
                   </li>
-                  <li className={s['preview__item']}>
+                  <li key="3" className={s['preview__item']}>
                     <span className={s['preview__key']}>Distance: </span>
                     <span className={s['preview__value']}>{d.distance}</span>
                   </li>
-                  <li className={s['preview__item']}>
+                  <li key="4" className={s['preview__item']}>
                     <span className={s['preview__key']}>Location: </span>
                     <span className={s['preview__value']}>{d.location}</span></li>
-                  <li className={s['preview__item']}>
+                  <li key="5" className={s['preview__item']}>
                     <span className={s['preview__key']}>Elevation: </span>
                     <span className={s['preview__value']}>{d.elevation}</span>
                   </li>
-              </ul>
+                  <li key="6" className={s['preview__item']}>
+                    <span className={s['preview__key']}>Gear: </span>
+                    <span className={s['preview__value']}>{d.gear}</span>
+                  </li>
+                  <li key="7" className={s['preview__item']}>
+                    <span className={s['preview__key']}>Strava URL: </span>
+                    <span className={s['preview__value']}><a href={d.stravaURL} target="_blank">{d.stravaURL}</a></span>
+                  </li>
+              </ul> 
           </div>
           <div className={s['preview__section']}>
             {d.textSections.map(textSectionsOutput)}
@@ -63,9 +71,9 @@ function Preview() {
             <Table striped bordered variant="dark" size="sm">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Goal</th>
-                  <th>Completed</th>
+                  <th key={1}>#</th>
+                  <th key={2}>Goal</th>
+                  <th key={3}>Completed</th>
                 </tr>
               </thead>
               <tbody>
@@ -78,8 +86,8 @@ function Preview() {
             <Table striped bordered variant="dark" size="sm">
               <thead>
                 <tr>
-                  <th>Split</th>
-                  <th>Time</th>
+                  <th key={1}>Split</th>
+                  <th key={2}>Time</th>
                 </tr>
               </thead>
               <tbody>

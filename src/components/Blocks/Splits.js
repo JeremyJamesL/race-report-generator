@@ -7,7 +7,7 @@ function Splits(props) {
   const splits =  props.raceData.splits;
 
   const renderSplits = (s) => {
-    return <Input type="text" name={s.split} value={s.elapsed_time} label={`Lap ${s.split}`} dataType="split"/>
+    return <Input type="text" name={s.split} key={s.split} value={s.elapsed_time} label={`Lap ${s.split}`} dataType="split"/>
   }
 
   return (

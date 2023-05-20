@@ -1,7 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BsStrava, BsFillPenFill, BsFillInfoCircleFill } from "react-icons/bs";
+import Card from './components/UI/Card';
 import Markdown from './components/Modals/Markdown';
 import Help from './components/Modals/Help';
+import InputRaceID from './components/Modals/InputRaceID';
 import Button from './components/UI/Button';
 import Spinner from './components/UI/Spinner';
 import Header from './components/UI/Header';
@@ -20,7 +22,6 @@ import {convertDateToReadable, convertToMinSec, convertSecondsToHMS, metresToKm,
 import './App.scss';
 
 const clientId = '96784';
-const activityID = '8076222179';
 const clientSecret = 'fac7d050a2167b73f126050654539331d0ce413c';
 
 // Reducer functions
@@ -171,8 +172,11 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showMarkdown, updateShowMarkdown] = useState(false);
   const [showHelp, updateShowHelp] = useState(false);
+  const [showRaceInput, updateShowRaceInput] = useState(false);
   const [enterMode, setEnterMode] = useState('');
-  console.log(raceData)
+  const [error, updateError] = useState(false);
+  const [response, updateResponse] = useState();
+
 
   // Reducer actions
   const handleAddNewRace = (race) => {
@@ -234,23 +238,24 @@ function App() {
   }
 
   // Authorize
-  const authorize = () => {
+  const authorize = (submittedID) => {
+    localStorage.setItem('actID', submittedID);
     setIsLoading(true);
-    const url = `https://www.strava.com/oauth/authorize?client_id=96784&response_type=code&redirect_uri=http://localhost:3000/&approval_prompt=force&scope=activity:read_all`;
+    const url = `https://www.strava.com/oauth/authorize?client_id=96784&response_type=code&redirect_uri=https://race-report-gen.jezl.xyz/&approval_prompt=force&scope=activity:read_all`;
     window.location = url;
   }
 
   // Fetch race data
   const displayData = async(accessToken, activityID) => {
-    // console.log(accessToken, activityID);
+    console.log('running display data function');
     try {
       const response = await fetch(`https://www.strava.com/api/v3/activities/${activityID}?access_token=${accessToken}`);
+
       if (!response.ok) {
-        throw new Error(`Something went wrong ${response}`);
+        throw new Error(`Something went wrong in display function: ${response}`);
       }
 
       const data = await response.json();
-      // console.log(data);
 
       const transformedData = {
         name: data.name || '',
@@ -261,6 +266,8 @@ function App() {
         elevation: data.total_elevation_gain || '',
         splitsKM: data.splits_metric || '',
         splitsMiles: data.splits_standard || '',
+        gear: data.gear.name || '',
+        stravaURL: `https://www.strava.com/activities/${data.id}`,
         textSections: [
           'Background', 'Training', 'Pre-race'
         ],
@@ -289,7 +296,8 @@ function App() {
       handleAddNewRace(transformedData);
 
     } catch (error) {
-        console.log(`error occurred${error}`);
+        console.log(`error occurred${error} in display function`);
+        updateError(true);
     }
     setIsLoading(false);
     updateShowBlocks(true);
@@ -297,35 +305,39 @@ function App() {
 
   // Test for Strava redirect URL on reload
   useEffect(() => {
+      console.log('running load function');
       setIsLoading(true);
+      
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const code = urlParams.get('code');
 
       if(code !== null) {
-
+        const activityID = localStorage.getItem('actID');
+        
         const fetchURL = async() => {
           try {
             const response = await fetch(`https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}&grant_type=authorization_code`, {method: 'POST'});
 
             if (!response.ok) {
-              throw new Error(`Something went wrong ${response}`);
+              throw new Error(`Something went wrong in load function ${response}`);
             }        
+            
             const data = await response.json();
             displayData(data.access_token, activityID)
 
           }
           catch (error) {
-            console.log(`error occurred${error}`);
+            console.log(error, 'in load function')
+            updateError(true);
+            setIsLoading(false);
           }
         }
 
         fetchURL();
-
       }
 
       else {
-        console.log('not a strava url');
         setIsLoading(false);
       }
   }, [])
@@ -338,9 +350,11 @@ function App() {
       updateGoalCompleted,
       updateShowMarkdown,
       updateShowHelp,
+      updateShowRaceInput,
+      updateShowBlocks,
       showMarkdown,
       showHelp,
-      updateShowBlocks,
+      showRaceInput,
       deleteOrAddGoal,
       deleteOrAddSplit,
       deleteOrAddTextSection,
@@ -357,13 +371,19 @@ function App() {
       {showHelp &&
        ReactDOM.createPortal(<Help/>, document.getElementById('root-help'))
       }
-      <Header showBlocks={showBlocks}/>
+
+      {
+        showRaceInput &&
+        ReactDOM.createPortal(<InputRaceID authorize={authorize}/>, document.getElementById('root-raceInput'))
+      }
+
+      <Header showBlocks={showBlocks} error={error}/>
 
       <main className='main'>
-        {!showBlocks && !isLoading &&
+        {!showBlocks && !isLoading && !error &&
           <div className={`row-util home`}>
           <div className='home__buttons'>
-            <Button text="Add Strava race" icon={<BsStrava className={bs['button__icon']}/>} className='home__btn button__icon' authorize={authorize}/>
+            <Button text="Add Strava race" icon={<BsStrava className={bs['button__icon']}/>} className='home__btn button__icon'/>
             <Button text="Enter manually" icon={<BsFillPenFill className={bs['button__icon']}/>} className='home__btn button__icon' />
             <Button text="Help" icon={<BsFillInfoCircleFill className={bs['button__icon']}/>} className='home__btn button__icon'/>
           </div>
@@ -372,7 +392,7 @@ function App() {
         {isLoading &&
             <Spinner/>
           }
-        {showBlocks &&
+        {showBlocks && !error &&
         <div className="row-util">
             <div className="col-1-of-3">
               <RaceInfo raceData={raceData} />
@@ -384,6 +404,20 @@ function App() {
                 <Preview raceData={raceData}/>
             </div>
         </div>
+        }
+
+        {error &&
+        <div className="row-util">
+          <Card>
+
+            <p>Something went wrong. Status code: <strong>
+              </strong>
+            </p>
+            <p>Please check your Activity ID is correct. You can also click <a className='home__link' href='/'>start again</a> and fill in manually.</p>
+            <p>You can contact the app owner <a className='home__link' href="mailto:jeremyluscombe@gmail.com">here</a>. Include your ActivityID and the experience you are having</p>
+            
+          </Card>
+        </div>  
         }
 
       </main>

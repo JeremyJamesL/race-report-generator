@@ -22,7 +22,10 @@
     }
 
     &__value {
-
+        a {
+            text-decoration: underline;
+            color: inherit;
+        }
     }
 
 }

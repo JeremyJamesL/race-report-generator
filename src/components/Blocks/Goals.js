@@ -5,7 +5,7 @@ import Input from "../Input/Input";
 function Goals(props) {
   const renderGoals = (goal) => {
     return (
-        <Input type="text" name={goal.name} label={`Goal ${goal.name}`} value={goal.value} dataType="goal"/>
+        <Input type="text" name={goal.name} key={`Goal ${goal.name}`}  label={`Goal ${goal.name}`} value={goal.value} dataType="goal"/>
     )
   }
 

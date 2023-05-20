@@ -16,6 +16,7 @@ function Help() {
                 allowFullScreen
                 title="Embedded youtube"
                 />
+                <a href={`https://www.youtube.com/embed/${embedId}`} target='_blank'>Watch on Youtube</a>
             </div>
         </div>
     </ModalWrapper>

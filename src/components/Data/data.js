@@ -6,6 +6,7 @@ const dummyData = {
     finishTime: '1:39:39',
     elevation: 0,
     chosenMeasurementSystem: 'km',
+    gear: "Hoka One One One.....",
     goals: [
       {
         name: "1",

@@ -11,6 +11,8 @@ function ModalWrapper(props) {
         ctx.updateShowMarkdown(false);
     } else if(ctx.showHelp) {
         ctx.updateShowHelp(false);
+    } else if(ctx.showRaceInput) {
+      ctx.updateShowRaceInput(false);
     }
   }
 

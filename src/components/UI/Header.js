@@ -11,7 +11,7 @@ function Header(props) {
             <h1 className={s["header__site-title"]}>
               <a href="/">👟<span>Strava</span> Race Report Generator</a>
             </h1>
-                {props.showBlocks &&
+                {props.showBlocks && !props.error &&
                 <div className={s['header__buttons']}>
                   <Button text="Generate markdown" icon={<IoIosCreate className={bs['button__icon']}/>}/>
                   <Button text="Start again" icon={<IoIosExit className={`${bs['button__icon']} ${bs['button__icon--start-again']}`}/>} className={s['header__btn']}/> 

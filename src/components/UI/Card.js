@@ -1,13 +1,10 @@
 import { useContext } from "react";
-import { IoIosCreate } from "react-icons/io";
 import AppContext from "../Context/app-context";
 import s from "./Card.module.scss";
-import bs from '../UI/Button.module.scss';
 import SwitchMetric from "../Input/SwitchMetrics";
 import AddDeleteSplits from "../Input/AddDeleteSplits";
 import AddDeleteGoals from "../Input/AddDeleteGoals";
 import AddDeleteTextSection from "../Input/AddDeleteTextSection";
-import Button from "./Button";
 
 function Card(props) {
   const ctx = useContext(AppContext);

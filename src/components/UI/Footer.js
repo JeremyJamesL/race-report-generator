@@ -9,8 +9,8 @@ function Footer() {
         <div className={`row-util ${s['footer__inner']}`}>
             <span>@Jeremy Luscombe {year}</span>
               <ul className={s['footer__socials']}>
-                <li><a href="#">Github</a></li>
-                <li><a href="#">Twitter</a></li>
+                <li><a href="https://github.com/JeremyJamesL">Github</a></li>
+                <li><a href="https://twitter.com/JJDEV6">Twitter</a></li>
               </ul>
         </div>
     </footer>

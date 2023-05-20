@@ -7,7 +7,7 @@ function Button(props) {
 
   const handleBtnClick = (e) => {
     if(e.target.textContent === 'Add Strava race') {
-      props.authorize();
+      ctx.updateShowRaceInput(true);
     }
     else if(e.target.textContent === 'Generate markdown') {
       ctx.updateShowMarkdown(true);
