@@ -41,9 +41,8 @@ function Markdown() {
           </div>
           <textarea ref={textAreaInput} name="" rows="12" cols="30" className={s['markdown__textarea']}>
           {
-            `#${d.name}\r\n## Race Information\r\n* **Name:** ${d.name}\r\n* **Date:** ${d.date}\r\n* **Distance:** ${d.distance}\r\n* **Location:** ${d.location}\r\n* **Gear:** ${d.gear}\r\n* **Time:** ${d.finishTime}\r\n\r\n## Goals\r\n| Goal | Description | Completed? |\r\n|------|------|------|\r\n${goals.join('')}\r\n## Splits\r\n| Split | Time |\r\n|------|------|\r\n${splits.join('')}\r\n${textSections.join('')} Made with [Strava race report generator](https://race-report-gen.jezl.xyz/).`
+            `#${d.name}\r\n## Race Information\r\n* **Name:** ${d.name}\r\n* **Date:** ${d.date}\r\n* **Distance:** ${d.distance}\r\n* **Location:** ${d.location}\r\n* **Time:** ${d.finishTime}\r\n* **Elevation:** ${d.elevation}\r\n* **Gear:** ${d.gear}\r\n* **StravaURL:** ${d.stravaURL}\r\n\r\n## Goals\r\n| Goal | Description | Completed? |\r\n|------|------|------|\r\n${goals.join('')}\r\n## Splits\r\n| Split | Time |\r\n|------|------|\r\n${splits.join('')}\r\n${textSections.join('')} Made with [Strava race report generator](https://race-report-gen.jezl.xyz/).`
           }
-       
           </textarea>
         </div>
         </ModalWrapper>

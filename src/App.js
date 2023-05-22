@@ -175,7 +175,10 @@ function App() {
   const [showRaceInput, updateShowRaceInput] = useState(false);
   const [enterMode, setEnterMode] = useState('');
   const [error, updateError] = useState(false);
-  const [response, updateResponse] = useState();
+  const [errorMessage, updateErrorMessage] = useState({
+    code: '',
+    message: ''
+  });
 
 
   // Reducer actions
@@ -252,10 +255,16 @@ function App() {
       const response = await fetch(`https://www.strava.com/api/v3/activities/${activityID}?access_token=${accessToken}`);
 
       if (!response.ok) {
-        throw new Error(`Something went wrong in display function: ${response}`);
+
+        updateErrorMessage({
+          code: response.status,
+          name: response.statusText
+        });
+        throw new Error(`Something went wrong in display function`);
       }
 
       const data = await response.json();
+
 
       const transformedData = {
         name: data.name || '',
@@ -307,7 +316,6 @@ function App() {
   useEffect(() => {
       console.log('running load function');
       setIsLoading(true);
-      
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const code = urlParams.get('code');
@@ -320,6 +328,10 @@ function App() {
             const response = await fetch(`https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}&grant_type=authorization_code`, {method: 'POST'});
 
             if (!response.ok) {
+              updateErrorMessage({
+                code: response.status,
+                name: response.statusText
+              })
               throw new Error(`Something went wrong in load function ${response}`);
             }        
             
@@ -409,9 +421,7 @@ function App() {
         {error &&
         <div className="row-util">
           <Card>
-
-            <p>Something went wrong. Status code: <strong>
-              </strong>
+            <p>Something went wrong. Status code: <strong>{errorMessage.code} {errorMessage.name}</strong>
             </p>
             <p>Please check your Activity ID is correct. You can also click <a className='home__link' href='/'>start again</a> and fill in manually.</p>
             <p>You can contact the app owner <a className='home__link' href="mailto:jeremyluscombe@gmail.com">here</a>. Include your ActivityID and the experience you are having</p>

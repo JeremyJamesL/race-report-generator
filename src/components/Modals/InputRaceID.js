@@ -17,7 +17,7 @@ function InputRaceID(props) {
         <div className={s['race-input']}>
             <form action="" onSubmit={handleSubmit}>
                 <div className={s['race-input__group']}>
-                <span className={s['race-input__pre-text']}>https://strava.com/activities/</span><input type="number" placeholder='add your race id' className={s['race-input__input']} onChange={(e) => updateID(e.target.value)}/>
+                <span className={s['race-input__pre-text']}>https://strava.com/activities/</span><input type="number" placeholder='add your race id' className={s['race-input__input']} onChange={(e) => updateID(e.target.value.trim())}/>
                 </div>
                 <button type='submit' className={bs.button}>Submit
                     <span className={bs['button__icon']}>
