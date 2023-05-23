@@ -1,15 +1,19 @@
 @use "../../sass/abstracts/animations";
 
+.spinner-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-100%);
+    width: 40px;
+    height: 40px;
+}
+
 .spinner {
-    color: official;
+
     display: inline-block;
-    position: relative;
     width: 20px;
     height: 20px;
-    position: absolute;
-    top: 10rem;
-    right: 50%;
-    transform: translateX(-50%, -50%);
+
 
     div {
         transform-origin: 40px 40px;
