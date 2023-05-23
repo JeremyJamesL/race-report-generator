@@ -7,6 +7,7 @@ const dummyData = {
     elevation: 0,
     chosenMeasurementSystem: 'km',
     gear: "Hoka One One One.....",
+    stravaURL: "https://strava.com/activityID",
     goals: [
       {
         name: "1",

@@ -424,8 +424,7 @@ function App() {
             <p>Something went wrong. Status code: <strong>{errorMessage.code} {errorMessage.name}</strong>
             </p>
             <p>Please check your Activity ID is correct. You can also click <a className='home__link' href='/'>start again</a> and fill in manually.</p>
-            <p>You can contact the app owner <a className='home__link' href="mailto:jeremyluscombe@gmail.com">here</a>. Include your ActivityID and the experience you are having</p>
-            
+            <p>You can contact the app owner <a className='home__link' href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#101;&#108;&#108;&#111;&#64;&#106;&#101;&#122;&#108;&#46;&#120;&#121;&#122;">here</a></p>
           </Card>
         </div>  
         }
