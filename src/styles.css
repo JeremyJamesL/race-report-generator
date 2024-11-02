@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html {
+  /* height: 100vh; */
+}
+
+body {
+  background-image: url("../dist/images/bg.png");
+  font-family: "Lato", sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
