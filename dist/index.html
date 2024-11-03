@@ -13,21 +13,24 @@
   </head>
   <body class="relative">
     <div class="app">
-      <header class="bg-black/50 text-white py-2">
+      <header class="bg-black/50 text-white py-3">
         <div class="container text-center">
           <h1 class="text-lg uppercase font-light">
             <span class="mr-2 text-2xl">👟</span>
-            <span class="font-bold">Strava</span> race report generator
+
+            <a href="/"
+              ><span class="font-bold">Strava</span> race report generator</a
+            >
           </h1>
         </div>
       </header>
 
       <main class="py-10">
         <div class="container">
-          <!-- Popup modal -->
+          <!-- Submission modal -->
           <div
             id="modal"
-            class="hidden w-full h-full bg-black/50 top-0 left-0 justify-center items-center"
+            class="hidden w-full h-full bg-black/50 top-0 left-0 justify-center items-center px-3"
           >
             <div
               class="inner relative bg-white border-4 border-orange-600 rounded-lg py-5 px-7"
@@ -38,38 +41,63 @@
               >
                 x
               </div>
-              <h1 class="text-black font-medium text-lg mb-3">
-                Add your race id:
-              </h1>
-              <div class="flex items-end">
-                <span class="mr-2 text-neutral-500"
-                  >strava.com/activities/
-                </span>
-
-                <input
-                  class="bg-neutral-100 border-black border rounded-lg p-1"
-                  type="text"
-                  id="race-input"
-                />
+              <div class="modal-content">
+                <h1 class="text-black font-medium text-lg mb-3">
+                  Add your race id:
+                </h1>
+                <div class="flex items-end">
+                  <span class="mr-2 text-neutral-500"
+                    >strava.com/activities/
+                  </span>
+                  <input
+                    class="bg-neutral-100 border-black border rounded-lg p-1"
+                    type="text"
+                    id="race-input"
+                  />
+                  <br />
+                </div>
+                <button class="block" id="submit-race">Submit</button>
+                <div id="form-feedback"></div>
               </div>
             </div>
           </div>
 
-          <div class="home-action text-center flex justify-center flex-col">
-            <button
-              id="add-race"
-              class="btn mb-3 bg-neutral-100 py-2 px-3 text-neutral-500 uppercase font-medium self-center"
+          <!-- Error modal -->
+          <div
+            id="error-modal"
+            class="hidden w-full h-full bg-black/50 top-0 left-0 justify-center items-center px-3"
+          >
+            <div
+              class="inner relative bg-white border-4 border-orange-600 rounded-lg py-5 px-7"
             >
-              <span class="text-orange-500">🖋️</span>Add strava race</button
-            ><button
-              class="btn mb-3 bg-neutral-100 py-2 px-3 text-neutral-500 uppercase font-medium self-center"
-            >
-              <span class="text-orange-500"></span>Enter manually</button
-            ><button
-              class="btn mb-3 bg-neutral-100 py-2 px-3 text-neutral-500 uppercase font-medium self-center"
-            >
-              <span class="text-orange-500"></span>Help
-            </button>
+              <div
+                id="close-error-modal"
+                class="absolute top-1 right-2 rounded-full font-black inline-block leading-none"
+              >
+                x
+              </div>
+              <div class="modal-content">
+                Please add sufficient permisssions!
+              </div>
+            </div>
+          </div>
+          <div id="primary-content">
+            <div class="home-action text-center flex justify-center flex-col">
+              <button
+                id="add-race"
+                class="btn text-sm mb-3 bg-neutral-100 py-2 px-3 text-neutral-800 uppercase font-medium self-center"
+              >
+                <span class="text-orange-500"></span>Add strava race</button
+              ><button
+                class="btn text-sm mb-3 bg-neutral-100 py-2 px-3 text-neutral-800 uppercase font-medium self-center"
+              >
+                <span class="text-orange-500"></span>Enter manually</button
+              ><button
+                class="btn text-sm mb-3 bg-neutral-100 py-2 px-3 text-neutral-800 uppercase font-medium self-center"
+              >
+                <span class="text-orange-500"></span>Help
+              </button>
+            </div>
           </div>
         </div>
       </main>
