@@ -1,0 +1,93 @@
+<% const splitsInChosenSystem = race.chosenSystem === "metric" ? race.splits.splitInKMs : race.splits.splitsInMiles  %>
+<div class="app">
+<aside>
+<h2>Race info</h2>
+<ul>
+  <% for(const [key, value] of Object.entries(race.general)) { %>
+    <li>
+        <label for="<%=key %>">
+            <%= key.split("_").join(" ") %>
+        </label>
+        <input type="text" id="<%=key %>" value="<%= value%>" class="input__general--<%=key %>"/>
+    </li>
+  <% } %>
+</ul>
+<h2>Goals</h2>
+<ul>
+    <% for(const [key,value] of Object.entries(race.goals)) { %>
+        <li>
+            <label for="<%=key %>"><%= key.split("_").join(" ")%></label>
+            <input type="text" id="<%=key %>"  value="<%=value %>" class="input__goal--<%=key %>"/>
+        </li>
+    <% } %> 
+</ul>
+<h2>Text sections</h2>
+<% for(const [key,value] of Object.entries(race.text_sections)) { %>
+    <li>
+        <label for="<%=key %>">
+            <%= key.split("_").join(" ") %>
+        </label>
+        <input type="text" id="<%=key %>" value="<%= value%>" class="input__sections--<%=key %>"/>
+    </li>
+<% }%>
+</ul>
+<h2>Splits</h2>
+<ul>
+    <% splitsInChosenSystem.forEach((split, index) => { %>
+        <li>
+            <label for="split_<%=split %>">
+                Split <%=index %>
+            </label>
+            <input type="text" id="split_<%=split %>" value="<%=split %>" class="input__split--split-<%=index %>"/>
+        </li>
+    <% })%>
+</ul>
+</aside>
+<div>
+    <h2>Preview</h2>
+    <div>
+        <h3>Race info</h3>
+        <ul>
+            <% for (const [key, value] of Object.entries(race.general)) { %>
+                <li>
+                    <strong><%= key.split("_").join(" ")%>:</strong> <span class="output__general--<%=key %>"><%=value %></span>
+                </li>
+            <% }%>
+        </ul>
+    </div>
+    <div>
+        <% for(const [key,value] of Object.entries(race.text_sections)) { %>
+            <li>
+                <h3 class="output__sections--<%=key %>"><%=value %></h3>
+            </li>
+            <p>
+                Proident voluptate excepteur ut duis irure magna officia nostrud sint occaecat in ipsum esse. Incididunt adipisicing exercitation quis veniam reprehenderit consectetur quis laborum est quis exercitation non excepteur fugiat. Non duis pariatur proident enim pariatur excepteur elit laborum voluptate irure sit aute. Occaecat velit consequat ut in aliqua excepteur dolor labore.
+            </p>
+        <% }%>
+    </div>
+    <div>
+        <h3>Goals</h3>
+        <ul>
+            <% for(const [key,value] of Object.entries(race.goals)) { %>
+                <li>
+                    <h4><%=key.split("_").join("") %></h4>
+                    <p class="output__goal--<%=key %>"><%=value %></p>
+                </li>
+            <% } %> 
+        </ul>
+    </div>
+    <div>
+        <h3>Splits</h3>
+        <ul>
+            <% splitsInChosenSystem.forEach((split, index) => { %>
+                <li>
+                    <h4>Split <%=index %></h4>
+                    <span class="output__split--split-<%=index %>"><%=split %></span>
+                </li>
+            <% })%>
+        </ul>
+    </div>
+</div>
+<button class="get-markdown">Get markdown</button>
+</div>
+
